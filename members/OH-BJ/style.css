@@ -76,17 +76,53 @@ p { line-height: 1.7; }
 li { line-height: 1.8; }
 
 /* 좋아하는 가수 / 노래 */
-.artist {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  background: #f3f1ff;
-  border-radius: 10px;
-  padding: 16px;
+/* 나무위키 스타일 가수 소개 */
+.wiki { font-size: .95rem; }
+.wiki::after { content: ""; display: block; clear: both; }
+.wiki-title {
+  margin: 0 0 16px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #eee;
+  font-size: 1.6rem;
+  color: #222;
 }
-.artist-icon { font-size: 2.4rem; }
-.artist strong { font-size: 1.3rem; }
-.artist p { margin: 2px 0 0; color: #666; font-size: .95rem; line-height: 1.5; }
+.wiki-title small { font-size: 1rem; color: #999; font-weight: normal; }
+.infobox {
+  float: right;
+  width: 260px;
+  margin: 0 0 16px 20px;
+  border-collapse: collapse;
+  font-size: .85rem;
+  border: 2px solid var(--main);
+}
+.infobox th {
+  background: linear-gradient(135deg, var(--main), var(--accent));
+  color: #fff;
+  padding: 10px;
+  font-size: 1.1rem;
+}
+.infobox td { padding: 6px 10px; border-top: 1px solid #eee; line-height: 1.5; }
+.infobox td:first-child { width: 72px; background: #f3f1ff; font-weight: 600; color: #555; text-align: center; }
+.wiki h4 {
+  margin: 20px 0 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #ddd;
+  font-size: 1.15rem;
+}
+.wiki h4 span { color: var(--main); margin-right: 4px; }
+.wiki p, .wiki li { line-height: 1.8; }
+.wiki ul { padding-left: 20px; }
+.tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.tags span {
+  background: #f3f1ff;
+  color: var(--main);
+  border-radius: 999px;
+  padding: 4px 12px;
+  font-size: .9rem;
+}
+@media (max-width: 560px) {
+  .infobox { float: none; width: 100%; margin: 0 0 16px; }
+}
 h3 { font-size: 1rem; color: #555; margin: 20px 0 8px; }
 .hint { color: #888; margin: 0 0 16px; font-size: .95rem; }
 
