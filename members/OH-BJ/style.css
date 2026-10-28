@@ -1,23 +1,68 @@
 /* OH-BJ 전용 스타일 — 자유롭게 바꾸세요 */
-:root { --main: #00b894; }
+:root { --main: #6c5ce7; --accent: #fd79a8; }
 * { box-sizing: border-box; }
 body {
   margin: 0;
   font-family: "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
-  background: #fafafa;
+  background: #f7f6fd;
   color: #222;
 }
 nav { padding: 16px; }
 nav a { color: var(--main); text-decoration: none; font-weight: 600; }
 .hero {
-  background: var(--main);
+  background: linear-gradient(135deg, var(--main), var(--accent));
   color: #fff;
   text-align: center;
-  padding: 48px 16px;
+  padding: 48px 16px 32px;
 }
 .hero .emoji { font-size: 4rem; }
-.hero h1 { margin: 8px 0; font-size: 2.2rem; }
-.tagline { margin: 0; opacity: .9; }
+.hello { margin: 8px 0 0; opacity: .85; letter-spacing: .05em; }
+.hero h1 {
+  margin: 4px 0 0;
+  font-size: 3rem;
+  font-weight: 800;
+  letter-spacing: .12em;
+  text-shadow: 0 4px 16px rgba(0,0,0,.18);
+}
+.handle { margin: 0 0 16px; font-size: .9rem; opacity: .7; }
+.tagline { margin: 0; opacity: .95; line-height: 1.7; font-size: 1.05rem; }
+.tagline strong {
+  padding: 0 4px;
+  background: linear-gradient(transparent 60%, rgba(255,255,255,.3) 60%);
+}
+
+/* 헤더 아래 움직이는 이퀄라이저 */
+.equalizer {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 6px;
+  height: 40px;
+  margin-top: 24px;
+}
+.equalizer span {
+  width: 6px;
+  height: 100%;
+  background: rgba(255,255,255,.85);
+  border-radius: 3px;
+  transform-origin: bottom;
+  animation: bounce 1s ease-in-out infinite;
+}
+.equalizer span:nth-child(2) { animation-delay: -.2s; }
+.equalizer span:nth-child(3) { animation-delay: -.5s; }
+.equalizer span:nth-child(4) { animation-delay: -.1s; }
+.equalizer span:nth-child(5) { animation-delay: -.7s; }
+.equalizer span:nth-child(6) { animation-delay: -.3s; }
+.equalizer span:nth-child(7) { animation-delay: -.6s; }
+@keyframes bounce {
+  0%, 100% { transform: scaleY(.25); }
+  50% { transform: scaleY(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .equalizer span { animation: none; transform: scaleY(.6); }
+  .turntable.spinning .disc, .disc.drop { animation: none; }
+}
+
 main { max-width: 720px; margin: 0 auto; padding: 24px 16px 64px; }
 section {
   background: #fff;
@@ -27,11 +72,200 @@ section {
   box-shadow: 0 2px 8px rgba(0,0,0,.05);
 }
 h2 { color: var(--main); margin-top: 0; font-size: 1.2rem; }
-img { max-width: 100%; border-radius: 8px; }
-.placeholder {
-  border: 2px dashed #ddd;
-  border-radius: 8px;
-  padding: 40px;
-  text-align: center;
-  color: #aaa;
+p { line-height: 1.7; }
+li { line-height: 1.8; }
+
+/* 좋아하는 가수 / 노래 */
+/* 나무위키 스타일 가수 소개 */
+.wiki { font-size: .95rem; }
+.wiki::after { content: ""; display: block; clear: both; }
+.wiki-title {
+  margin: 0 0 16px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #eee;
+  font-size: 1.6rem;
+  color: #222;
 }
+.wiki-title small { font-size: 1rem; color: #999; font-weight: normal; }
+.infobox {
+  float: right;
+  width: 260px;
+  margin: 0 0 16px 20px;
+  border-collapse: collapse;
+  font-size: .85rem;
+  border: 2px solid var(--main);
+}
+.infobox th {
+  background: linear-gradient(135deg, var(--main), var(--accent));
+  color: #fff;
+  padding: 10px;
+  font-size: 1.1rem;
+}
+.infobox td { padding: 6px 10px; border-top: 1px solid #eee; line-height: 1.5; }
+.infobox td:first-child { width: 72px; background: #f3f1ff; font-weight: 600; color: #555; text-align: center; }
+.wiki h4 {
+  margin: 20px 0 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #ddd;
+  font-size: 1.15rem;
+}
+.wiki h4 span { color: var(--main); margin-right: 4px; }
+.wiki p, .wiki li { line-height: 1.8; }
+.wiki ul { padding-left: 20px; }
+.tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.tags span {
+  background: #f3f1ff;
+  color: var(--main);
+  border-radius: 999px;
+  padding: 4px 12px;
+  font-size: .9rem;
+}
+@media (max-width: 560px) {
+  .infobox { float: none; width: 100%; margin: 0 0 16px; }
+}
+h3 { font-size: 1rem; color: #555; margin: 20px 0 8px; }
+.hint { color: #888; margin: 0 0 16px; font-size: .95rem; }
+
+/* 레코드 상자 */
+.crate {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(105px, 1fr));
+  gap: 14px;
+}
+.record {
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  transition: transform .2s;
+}
+.record:hover { transform: translateY(-4px); }
+.record img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0,0,0,.18);
+  outline: 3px solid transparent;
+  outline-offset: 2px;
+  transition: outline-color .2s;
+}
+.record .mystery {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 6px;
+  background: linear-gradient(135deg, var(--main), var(--accent));
+  box-shadow: 0 4px 12px rgba(0,0,0,.18);
+  color: #fff;
+  font-size: 3rem;
+  font-weight: 700;
+  outline: 3px solid transparent;
+  outline-offset: 2px;
+  transition: outline-color .2s;
+}
+.record.selected img, .record.selected .mystery { outline-color: var(--accent); }
+.record strong { display: block; margin-top: 8px; }
+.record span { color: #888; font-size: .9rem; }
+
+/* 턴테이블 */
+.turntable {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-top: 24px;
+  padding: 24px 24px 20px;
+  border-radius: 14px;
+  background: linear-gradient(160deg, #3b2f4a, #241c2e);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.08), 0 8px 20px rgba(0,0,0,.2);
+}
+.platter {
+  flex: none;
+  width: min(260px, 70%);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: #15111a;
+  box-shadow: 0 0 0 6px #2e2538, 0 6px 14px rgba(0,0,0,.5);
+  display: grid;
+  place-items: center;
+}
+.disc {
+  width: 96%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, transparent 0 34%, rgba(255,255,255,.06) 35% 36%, transparent 37%),
+    repeating-radial-gradient(circle, #1c1c1c 0 2px, #262626 2px 4px);
+  display: grid;
+  place-items: center;
+  opacity: 0;
+}
+.turntable.loaded .disc { opacity: 1; }
+.disc.drop { animation: drop .5s ease-out; }
+@keyframes drop {
+  from { transform: scale(1.15) translateY(-20px); opacity: 0; }
+  to { transform: none; opacity: 1; }
+}
+.label {
+  width: 34%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #111;
+}
+.label:not([src]) { visibility: hidden; }
+.turntable.spinning .disc { animation: spin 2.4s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* 톤암: 재생 중이면 레코드 위로 내려옴 */
+.tonearm {
+  position: absolute;
+  top: 28px;
+  left: calc(24px + min(260px, 70%) + 8px);
+  width: 10px;
+  height: 150px;
+  border-radius: 5px;
+  background: linear-gradient(#ddd, #999);
+  transform-origin: 50% 5px;
+  transform: rotate(8deg);
+  transition: transform .6s ease;
+}
+.tonearm::before {
+  content: "";
+  position: absolute;
+  top: -8px;
+  left: -8px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #bbb;
+  box-shadow: inset 0 0 0 6px #888;
+}
+.tonearm::after {
+  content: "";
+  position: absolute;
+  bottom: -6px;
+  left: -5px;
+  width: 20px;
+  height: 26px;
+  border-radius: 3px;
+  background: var(--accent);
+}
+.turntable.spinning .tonearm { transform: rotate(28deg); }
+.now {
+  flex: 1 1 160px;
+  margin: 0 0 0 90px;
+  color: rgba(255,255,255,.85);
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+@media (max-width: 560px) {
+  .now { margin: 18px 0 0; font-size: 1rem; }
+}
+#spotify-player, iframe[src*="spotify"] { margin-top: 12px; border-radius: 12px; }
