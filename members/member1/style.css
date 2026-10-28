@@ -1,0 +1,37 @@
+/* 팀원 1 전용 스타일 — 자유롭게 바꾸세요 */
+:root { --main: #6c5ce7; }
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  background: #fafafa;
+  color: #222;
+}
+nav { padding: 16px; }
+nav a { color: var(--main); text-decoration: none; font-weight: 600; }
+.hero {
+  background: var(--main);
+  color: #fff;
+  text-align: center;
+  padding: 48px 16px;
+}
+.hero .emoji { font-size: 4rem; }
+.hero h1 { margin: 8px 0; font-size: 2.2rem; }
+.tagline { margin: 0; opacity: .9; }
+main { max-width: 720px; margin: 0 auto; padding: 24px 16px 64px; }
+section {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px 24px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.05);
+}
+h2 { color: var(--main); margin-top: 0; font-size: 1.2rem; }
+img { max-width: 100%; border-radius: 8px; }
+.placeholder {
+  border: 2px dashed #ddd;
+  border-radius: 8px;
+  padding: 40px;
+  text-align: center;
+  color: #aaa;
+}
