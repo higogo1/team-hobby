@@ -24,7 +24,6 @@ nav a { color: var(--main); text-decoration: none; font-weight: 600; }
   text-align: center;
   padding: 56px 16px;
 }
-.hero .emoji { font-size: 4rem; }
 .hero h1 {
   margin: 8px 0;
   font-size: 2.4rem;
@@ -68,8 +67,7 @@ li strong { color: var(--main); }
   transition: transform .2s, border-color .2s;
 }
 .content:hover { transform: translateY(-4px); border-color: var(--main); }
-.content .icon { font-size: 2rem; }
-.content h3 { margin: 6px 0; font-size: 1rem; color: var(--main); }
+.content h3 { margin: 0 0 6px; font-size: 1rem; color: var(--main); }
 .content p { margin: 0; font-size: .85rem; color: var(--muted); }
 img { max-width: 100%; border-radius: 8px; }
 .placeholder {
