@@ -7,16 +7,16 @@
 ```
 index.html, style.css      ← 홈 (팀원 카드 목록)
 members/
-  member1/index.html, style.css   ← 팀원 1 페이지
-  member2/...                     ← 팀원 2 페이지
-  member3/...                     ← 팀원 3 페이지
-  member4/...                     ← 팀원 4 페이지
+  higogo1/index.html, style.css   ← higogo1 페이지
+  OH-BJ/...                       ← OH-BJ 페이지
+  pakuyama/...                    ← pakuyama 페이지
+  exsaeculisinsaecula/...         ← exsaeculisinsaecula 페이지
 ```
 
 ## 내 페이지 꾸미는 법
 
 1. 저장소를 받습니다: `git clone <저장소 주소>`
-2. **자기 폴더(`members/memberN/`)만** 수정합니다. 사진도 이 폴더에 넣으세요.
+2. **자기 폴더(`members/내아이디/`)만** 수정합니다. 사진도 이 폴더에 넣으세요.
    - `index.html`: 내용 (이름, 취미, 이유, 사진 등)
    - `style.css`: 디자인 (`--main` 색상만 바꿔도 분위기가 달라집니다)
 3. 홈 `index.html`에서 내 카드의 이름/취미/이모지도 바꿔주세요.
@@ -25,7 +25,7 @@ members/
    ```bash
    git pull
    git add .
-   git commit -m "member1: 내 취미 페이지 꾸미기"
+   git commit -m "higogo1: 내 취미 페이지 꾸미기"
    git push
    ```
 
