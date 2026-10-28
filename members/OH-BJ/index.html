@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>OH-BJ의 취미</title>
+  <title>오병주의 취미</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -12,8 +12,10 @@
 
   <header class="hero">
     <span class="emoji">🎧</span>
-    <h1>OH-BJ</h1>
-    <p class="tagline">내가 좋아하는 취미는 <strong>음악 감상</strong> 입니다</p>
+    <p class="hello">안녕하세요, 저는</p>
+    <h1>오병주</h1>
+    <p class="handle">@OH-BJ</p>
+    <p class="tagline">장르 안 가리고 다 듣는 <strong>음악 감상</strong>러입니다.<br>제 플레이리스트 한번 들어보실래요?</p>
     <div class="equalizer" aria-hidden="true">
       <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
     </div>
@@ -62,7 +64,7 @@
         </button>
         <button class="record shuffle">
           <span class="mystery">?</span>
-          <strong>랜덤 재생</strong><span>아무 노래나 틀어줘</span>
+          <strong>랜덤 재생</strong><span class="count">아무 노래나 틀어줘</span>
         </button>
       </div>
 
@@ -87,6 +89,8 @@
     </section>
   </main>
 
+  <!-- 랜덤 재생용 노래 목록 (extraSongs) -->
+  <script src="songs.js"></script>
   <script>
     // 레코드를 누르면 턴테이블에 올리고 Spotify 플레이어로 재생
     const turntable = document.querySelector('.turntable');
@@ -112,17 +116,6 @@
       });
     }
 
-    // 랜덤 재생 때 위 레코드들과 함께 섞어서 고르는 노래들
-    const extraSongs = [
-      { track: '7dTW21YAJxnAOiUh7Rtu9S', title: '怪獣の花唄', artist: 'Vaundy', cover: 'https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02292ec8115884b7533905dd1a' },
-      { track: '1Bb6jVrsg8cXxMCBxIWJUn', title: '밤편지', artist: '아이유', cover: 'https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02582ef1f9cf429f07ee914a89' },
-      { track: '5BqwC9kOBbqYkzdOKeXFFk', title: '주저하는 연인들을 위해', artist: '잔나비', cover: 'https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e02f694adfa02990eaca79fec1b' },
-      { track: '6DA7kCWYMggJjqPM84V2Ng', title: 'TOMBOY', artist: '혁오', cover: 'https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e026b0b72f94905f2321564a20f' },
-      { track: '6MCjmGYlw6mQVWRFVgBRvB', title: '夜に駆ける', artist: 'YOASOBI', cover: 'https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e0239917845c74c9e64320fbed9' },
-      { track: '3r8RuvgbX9s7ammBn07D3W', title: 'Ditto', artist: 'NewJeans', cover: 'https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02edf5b257be1d6593e81bb45f' },
-      { track: '0btLaqWlXsOWLcpjE1jmIk', title: 'Time of Our Life', artist: 'DAY6', cover: 'https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e022380b58287df744b84b19e1f' },
-      { track: '1mea3bSkSGXuIRvnydlB5b', title: 'Viva La Vida', artist: 'Coldplay', cover: 'https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e02e21cc1db05580b6f2d2a3b6e' },
-    ];
     const favorites = [...document.querySelectorAll('.record[data-track]')].map(r => ({
       track: r.dataset.track,
       title: r.querySelector('strong').textContent,
@@ -131,6 +124,7 @@
     }));
     const allSongs = [...favorites, ...extraSongs];
     let current;
+    document.querySelector('.shuffle .count').textContent = `${allSongs.length}곡 중 아무거나`;
 
     function putOn(song, prefix = '♪') {
       current = song.track;
