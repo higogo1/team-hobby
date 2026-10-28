@@ -62,31 +62,28 @@ h2 { color: var(--main); margin-top: 0; font-size: 1.2rem; }
 p { line-height: 1.7; }
 li { line-height: 1.8; }
 
-/* 상황별 음악 카드 */
-.moods {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 12px;
-}
-.moods li {
+/* 좋아하는 가수 / 노래 */
+.artist {
+  display: flex;
+  align-items: center;
+  gap: 16px;
   background: #f3f1ff;
   border-radius: 10px;
-  padding: 14px;
-  line-height: 1.5;
-  font-size: .95rem;
-  color: #555;
+  padding: 16px;
 }
-.moods span { font-size: 1.6rem; display: block; }
-.moods strong { display: block; color: #222; margin: 4px 0 2px; }
+.artist-icon { font-size: 2.4rem; }
+.artist strong { font-size: 1.3rem; }
+.artist p { margin: 2px 0 0; color: #666; font-size: .95rem; line-height: 1.5; }
+h3 { font-size: 1rem; color: #555; margin: 20px 0 8px; }
+.songs { list-style: none; padding: 0; margin: 0; }
+.songs li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-bottom: 1px solid #eee;
+  font-size: 1.05rem;
+}
+.songs li:last-child { border-bottom: none; }
+.songs span { color: var(--accent); }
 
-img { max-width: 100%; border-radius: 8px; }
-.placeholder {
-  border: 2px dashed #ddd;
-  border-radius: 8px;
-  padding: 40px;
-  text-align: center;
-  color: #aaa;
-}
