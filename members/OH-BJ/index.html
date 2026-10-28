@@ -30,7 +30,7 @@
     </section>
 
     <section>
-      <h2>가장 좋아하는 가수</h2>
+      <h2>좋아하는 가수</h2>
       <div class="artist">
         <span class="artist-icon">🎤</span>
         <div>
@@ -38,21 +38,39 @@
           <p>작사·작곡부터 편곡까지 직접 하는 일본 싱어송라이터</p>
         </div>
       </div>
-      <h3>최애곡 <small>— 레코드를 누르면 공식 MV가 재생돼요</small></h3>
-      <div class="records">
-        <button class="record" data-video="JwmGruvGt_I">
-          <span class="sleeve"><img src="https://i.ytimg.com/vi/JwmGruvGt_I/hqdefault.jpg" alt="しわあわせ 앨범 커버"></span>
-          <span class="vinyl"></span>
-          <span class="title">しわあわせ</span>
+    </section>
+
+    <section>
+      <h2>내 턴테이블</h2>
+      <p class="hint">좋아하는 노래들이에요. 레코드를 눌러 턴테이블에 올려보세요!</p>
+      <div class="crate">
+        <button class="record" data-track="03nLyVPeLP7ivujEZW0dIj">
+          <img src="https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e0241a0679c06a1f5851032e644" alt="">
+          <strong>しわあわせ</strong><span>Vaundy</span>
         </button>
-        <button class="record" data-video="CI2x2aSi8aI">
-          <span class="sleeve"><img src="https://i.ytimg.com/vi/CI2x2aSi8aI/hqdefault.jpg" alt="呼び声 앨범 커버"></span>
-          <span class="vinyl"></span>
-          <span class="title">呼び声</span>
+        <button class="record" data-track="3kQf453SpkwX7ALdgzNSNY">
+          <img src="https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e02c8d4e8e5d8c3829163f12ff3" alt="">
+          <strong>呼び声</strong><span>Vaundy</span>
+        </button>
+        <button class="record" data-track="7zkut02u2ekBqbZeT395YF">
+          <img src="https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e02b04ccae4b1c13c2238e6ef7a" alt="">
+          <strong>밤, 바다</strong><span>최유리</span>
+        </button>
+        <button class="record" data-track="6vt4R4q5YL4M2cxl7o6pTe">
+          <img src="https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e021ffe3c31a29d23b319bdcbf5" alt="">
+          <strong>봄이 와도</strong><span>로이킴</span>
         </button>
       </div>
-      <!-- 영상은 Vaundy 공식 유튜브 채널의 MV를 임베드합니다 -->
-      <div class="player" hidden></div>
+
+      <div class="turntable">
+        <div class="platter">
+          <div class="disc"><img class="label" alt=""></div>
+        </div>
+        <div class="tonearm"></div>
+        <p class="now">레코드를 올려주세요</p>
+      </div>
+      <!-- 음원은 Spotify 공식 임베드 플레이어로 재생합니다 (로그인 안 하면 30초 미리듣기) -->
+      <div id="spotify-player"></div>
     </section>
 
     <section>
@@ -60,29 +78,57 @@
       <ul>
         <li>돈이나 장소 걱정 없이 누구나 바로 시작할 수 있어요.</li>
         <li>기분 전환이 필요할 때 노래 한 곡이면 충분합니다.</li>
-        <li>Vaundy 처음 들어본다면 위 두 곡부터 추천!</li>
+        <li>위 턴테이블에서 한 곡씩 들어보세요. Vaundy 입문은 しわあわせ부터 추천!</li>
       </ul>
     </section>
   </main>
 
   <script>
-    // 레코드를 누르면 LP가 돌면서 해당 곡의 공식 MV를 재생
-    const player = document.querySelector('.player');
+    // 레코드를 누르면 턴테이블에 올리고 Spotify 플레이어로 재생
+    const turntable = document.querySelector('.turntable');
+    const disc = turntable.querySelector('.disc');
+    const label = turntable.querySelector('.label');
+    const now = turntable.querySelector('.now');
+    let spotify, controller;
+
+    window.onSpotifyIframeApiReady = api => { spotify = api; };
+
+    function play(trackId) {
+      const uri = `spotify:track:${trackId}`;
+      if (controller) {
+        controller.loadUri(uri);
+        controller.play();
+        return;
+      }
+      spotify.createController(document.getElementById('spotify-player'), { uri, width: '100%', height: 80 }, c => {
+        controller = c;
+        c.addListener('ready', () => c.play());
+        // 실제로 재생 중일 때만 레코드가 돌고 톤암이 내려옴
+        c.addListener('playback_update', e => turntable.classList.toggle('spinning', !e.data.isPaused));
+      });
+    }
+
     document.querySelectorAll('.record').forEach(record => {
       record.addEventListener('click', () => {
-        const playing = record.classList.contains('playing');
-        document.querySelectorAll('.record').forEach(r => r.classList.remove('playing'));
-        if (playing) {
-          player.hidden = true;
-          player.innerHTML = '';
+        if (!spotify) return;
+        if (record.classList.contains('selected')) {
+          controller.togglePlay();
           return;
         }
-        record.classList.add('playing');
-        player.hidden = false;
-        player.innerHTML = `<iframe src="https://www.youtube.com/embed/${record.dataset.video}?autoplay=1"
-          title="Vaundy MV" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>`;
+        document.querySelectorAll('.record').forEach(r => r.classList.remove('selected'));
+        record.classList.add('selected');
+
+        label.src = record.querySelector('img').src;
+        now.textContent = `♪ ${record.querySelector('strong').textContent} — ${record.querySelector('span').textContent}`;
+        turntable.classList.add('loaded');
+        disc.classList.remove('drop');
+        void disc.offsetWidth; // 애니메이션 다시 시작
+        disc.classList.add('drop');
+
+        play(record.dataset.track);
       });
     });
   </script>
+  <script src="https://open.spotify.com/embed/iframe-api/v1" async></script>
 </body>
 </html>

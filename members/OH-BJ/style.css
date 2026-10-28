@@ -48,7 +48,7 @@ nav a { color: var(--main); text-decoration: none; font-weight: 600; }
 }
 @media (prefers-reduced-motion: reduce) {
   .equalizer span { animation: none; transform: scaleY(.6); }
-  .record.playing .vinyl { animation: none; }
+  .turntable.spinning .disc, .disc.drop { animation: none; }
 }
 
 main { max-width: 720px; margin: 0 auto; padding: 24px 16px 64px; }
@@ -76,67 +76,133 @@ li { line-height: 1.8; }
 .artist strong { font-size: 1.3rem; }
 .artist p { margin: 2px 0 0; color: #666; font-size: .95rem; line-height: 1.5; }
 h3 { font-size: 1rem; color: #555; margin: 20px 0 8px; }
-h3 small { font-weight: normal; color: #999; font-size: .85rem; }
+.hint { color: #888; margin: 0 0 16px; font-size: .95rem; }
 
-/* 레코드(LP) 카드 */
-.records {
+/* 레코드 상자 */
+.crate {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 14px;
 }
 .record {
-  position: relative;
   border: none;
   background: none;
-  padding: 0 0 36px;
+  padding: 0;
   cursor: pointer;
   font: inherit;
   color: inherit;
   text-align: left;
+  transition: transform .2s;
 }
-.sleeve {
-  position: relative;
-  z-index: 1;
+.record:hover { transform: translateY(-4px); }
+.record img {
   display: block;
-  width: 75%;
+  width: 100%;
   aspect-ratio: 1;
+  object-fit: cover;
   border-radius: 6px;
-  overflow: hidden;
-  box-shadow: 0 6px 16px rgba(0,0,0,.2);
+  box-shadow: 0 4px 12px rgba(0,0,0,.18);
+  outline: 3px solid transparent;
+  outline-offset: 2px;
+  transition: outline-color .2s;
 }
-.sleeve img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.vinyl {
-  position: absolute;
-  top: 4%;
-  left: 28%;
-  width: 67.5%;
+.record.selected img { outline-color: var(--accent); }
+.record strong { display: block; margin-top: 8px; }
+.record span { color: #888; font-size: .9rem; }
+
+/* 턴테이블 */
+.turntable {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-top: 24px;
+  padding: 24px 24px 20px;
+  border-radius: 14px;
+  background: linear-gradient(160deg, #3b2f4a, #241c2e);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.08), 0 8px 20px rgba(0,0,0,.2);
+}
+.platter {
+  flex: none;
+  width: min(260px, 70%);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: #15111a;
+  box-shadow: 0 0 0 6px #2e2538, 0 6px 14px rgba(0,0,0,.5);
+  display: grid;
+  place-items: center;
+}
+.disc {
+  width: 96%;
   aspect-ratio: 1;
   border-radius: 50%;
   background:
-    radial-gradient(circle, var(--accent) 0 14%, #111 15% 17%, transparent 18%),
-    repeating-radial-gradient(circle, #222 0 2px, #2c2c2c 2px 4px);
-  box-shadow: 0 4px 12px rgba(0,0,0,.3);
-  transition: left .4s ease;
+    radial-gradient(circle, transparent 0 34%, rgba(255,255,255,.06) 35% 36%, transparent 37%),
+    repeating-radial-gradient(circle, #1c1c1c 0 2px, #262626 2px 4px);
+  display: grid;
+  place-items: center;
+  opacity: 0;
 }
-.record:hover .vinyl { left: 34%; }
-.record.playing .vinyl {
-  left: 40%;
-  animation: spin 3s linear infinite;
+.turntable.loaded .disc { opacity: 1; }
+.disc.drop { animation: drop .5s ease-out; }
+@keyframes drop {
+  from { transform: scale(1.15) translateY(-20px); opacity: 0; }
+  to { transform: none; opacity: 1; }
 }
+.label {
+  width: 34%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #111;
+}
+.label:not([src]) { visibility: hidden; }
+.turntable.spinning .disc { animation: spin 2.4s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
-.record .title {
+
+/* 톤암: 재생 중이면 레코드 위로 내려옴 */
+.tonearm {
   position: absolute;
-  left: 0;
-  bottom: 0;
-  font-size: 1.05rem;
+  top: 28px;
+  left: calc(24px + min(260px, 70%) + 8px);
+  width: 10px;
+  height: 150px;
+  border-radius: 5px;
+  background: linear-gradient(#ddd, #999);
+  transform-origin: 50% 5px;
+  transform: rotate(8deg);
+  transition: transform .6s ease;
+}
+.tonearm::before {
+  content: "";
+  position: absolute;
+  top: -8px;
+  left: -8px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #bbb;
+  box-shadow: inset 0 0 0 6px #888;
+}
+.tonearm::after {
+  content: "";
+  position: absolute;
+  bottom: -6px;
+  left: -5px;
+  width: 20px;
+  height: 26px;
+  border-radius: 3px;
+  background: var(--accent);
+}
+.turntable.spinning .tonearm { transform: rotate(28deg); }
+.now {
+  flex: 1 1 160px;
+  margin: 0 0 0 90px;
+  color: rgba(255,255,255,.85);
+  font-size: 1.15rem;
   font-weight: 600;
 }
-.record.playing .title::before { content: "▶ "; color: var(--accent); }
-.player { margin-top: 16px; }
-.player iframe {
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  border: 0;
-  border-radius: 10px;
+@media (max-width: 560px) {
+  .now { margin: 18px 0 0; font-size: 1rem; }
 }
-
+#spotify-player, iframe[src*="spotify"] { margin-top: 12px; border-radius: 12px; }
