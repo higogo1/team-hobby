@@ -60,6 +60,10 @@
           <img src="https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e021ffe3c31a29d23b319bdcbf5" alt="">
           <strong>봄이 와도</strong><span>로이킴</span>
         </button>
+        <button class="record shuffle">
+          <span class="mystery">?</span>
+          <strong>랜덤 재생</strong><span>아무 노래나 틀어줘</span>
+        </button>
       </div>
 
       <div class="turntable">
@@ -108,25 +112,60 @@
       });
     }
 
-    document.querySelectorAll('.record').forEach(record => {
+    // 랜덤 재생 때 위 레코드들과 함께 섞어서 고르는 노래들
+    const extraSongs = [
+      { track: '7dTW21YAJxnAOiUh7Rtu9S', title: '怪獣の花唄', artist: 'Vaundy', cover: 'https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02292ec8115884b7533905dd1a' },
+      { track: '1Bb6jVrsg8cXxMCBxIWJUn', title: '밤편지', artist: '아이유', cover: 'https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02582ef1f9cf429f07ee914a89' },
+      { track: '5BqwC9kOBbqYkzdOKeXFFk', title: '주저하는 연인들을 위해', artist: '잔나비', cover: 'https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e02f694adfa02990eaca79fec1b' },
+      { track: '6DA7kCWYMggJjqPM84V2Ng', title: 'TOMBOY', artist: '혁오', cover: 'https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e026b0b72f94905f2321564a20f' },
+      { track: '6MCjmGYlw6mQVWRFVgBRvB', title: '夜に駆ける', artist: 'YOASOBI', cover: 'https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e0239917845c74c9e64320fbed9' },
+      { track: '3r8RuvgbX9s7ammBn07D3W', title: 'Ditto', artist: 'NewJeans', cover: 'https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02edf5b257be1d6593e81bb45f' },
+      { track: '0btLaqWlXsOWLcpjE1jmIk', title: 'Time of Our Life', artist: 'DAY6', cover: 'https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e022380b58287df744b84b19e1f' },
+      { track: '1mea3bSkSGXuIRvnydlB5b', title: 'Viva La Vida', artist: 'Coldplay', cover: 'https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e02e21cc1db05580b6f2d2a3b6e' },
+    ];
+    const favorites = [...document.querySelectorAll('.record[data-track]')].map(r => ({
+      track: r.dataset.track,
+      title: r.querySelector('strong').textContent,
+      artist: r.querySelector('span').textContent,
+      cover: r.querySelector('img').src,
+    }));
+    const allSongs = [...favorites, ...extraSongs];
+    let current;
+
+    function putOn(song, prefix = '♪') {
+      current = song.track;
+      label.src = song.cover;
+      now.textContent = `${prefix} ${song.title} — ${song.artist}`;
+      turntable.classList.add('loaded');
+      disc.classList.remove('drop');
+      void disc.offsetWidth; // 애니메이션 다시 시작
+      disc.classList.add('drop');
+      play(song.track);
+    }
+
+    function select(record) {
+      document.querySelectorAll('.record').forEach(r => r.classList.remove('selected'));
+      record.classList.add('selected');
+    }
+
+    document.querySelectorAll('.record[data-track]').forEach((record, i) => {
       record.addEventListener('click', () => {
         if (!spotify) return;
         if (record.classList.contains('selected')) {
           controller.togglePlay();
           return;
         }
-        document.querySelectorAll('.record').forEach(r => r.classList.remove('selected'));
-        record.classList.add('selected');
-
-        label.src = record.querySelector('img').src;
-        now.textContent = `♪ ${record.querySelector('strong').textContent} — ${record.querySelector('span').textContent}`;
-        turntable.classList.add('loaded');
-        disc.classList.remove('drop');
-        void disc.offsetWidth; // 애니메이션 다시 시작
-        disc.classList.add('drop');
-
-        play(record.dataset.track);
+        select(record);
+        putOn(favorites[i]);
       });
+    });
+
+    // 랜덤 재생: 누를 때마다 지금 곡이 아닌 다른 곡을 골라서 올림
+    document.querySelector('.shuffle').addEventListener('click', e => {
+      if (!spotify) return;
+      const candidates = allSongs.filter(song => song.track !== current);
+      select(e.currentTarget);
+      putOn(candidates[Math.floor(Math.random() * candidates.length)], '🎲');
     });
   </script>
   <script src="https://open.spotify.com/embed/iframe-api/v1" async></script>

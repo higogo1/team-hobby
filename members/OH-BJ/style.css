@@ -81,7 +81,7 @@ h3 { font-size: 1rem; color: #555; margin: 20px 0 8px; }
 /* 레코드 상자 */
 .crate {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(105px, 1fr));
   gap: 14px;
 }
 .record {
@@ -106,7 +106,22 @@ h3 { font-size: 1rem; color: #555; margin: 20px 0 8px; }
   outline-offset: 2px;
   transition: outline-color .2s;
 }
-.record.selected img { outline-color: var(--accent); }
+.record .mystery {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 6px;
+  background: linear-gradient(135deg, var(--main), var(--accent));
+  box-shadow: 0 4px 12px rgba(0,0,0,.18);
+  color: #fff;
+  font-size: 3rem;
+  font-weight: 700;
+  outline: 3px solid transparent;
+  outline-offset: 2px;
+  transition: outline-color .2s;
+}
+.record.selected img, .record.selected .mystery { outline-color: var(--accent); }
 .record strong { display: block; margin-top: 8px; }
 .record span { color: #888; font-size: .9rem; }
 
