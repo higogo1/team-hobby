@@ -38,11 +38,21 @@
           <p>작사·작곡부터 편곡까지 직접 하는 일본 싱어송라이터</p>
         </div>
       </div>
-      <h3>최애곡</h3>
-      <ul class="songs">
-        <li><span>🎵</span>しわあわせ</li>
-        <li><span>🎵</span>呼び声</li>
-      </ul>
+      <h3>최애곡 <small>— 레코드를 누르면 공식 MV가 재생돼요</small></h3>
+      <div class="records">
+        <button class="record" data-video="JwmGruvGt_I">
+          <span class="sleeve"><img src="https://i.ytimg.com/vi/JwmGruvGt_I/hqdefault.jpg" alt="しわあわせ 앨범 커버"></span>
+          <span class="vinyl"></span>
+          <span class="title">しわあわせ</span>
+        </button>
+        <button class="record" data-video="CI2x2aSi8aI">
+          <span class="sleeve"><img src="https://i.ytimg.com/vi/CI2x2aSi8aI/hqdefault.jpg" alt="呼び声 앨범 커버"></span>
+          <span class="vinyl"></span>
+          <span class="title">呼び声</span>
+        </button>
+      </div>
+      <!-- 영상은 Vaundy 공식 유튜브 채널의 MV를 임베드합니다 -->
+      <div class="player" hidden></div>
     </section>
 
     <section>
@@ -54,5 +64,25 @@
       </ul>
     </section>
   </main>
+
+  <script>
+    // 레코드를 누르면 LP가 돌면서 해당 곡의 공식 MV를 재생
+    const player = document.querySelector('.player');
+    document.querySelectorAll('.record').forEach(record => {
+      record.addEventListener('click', () => {
+        const playing = record.classList.contains('playing');
+        document.querySelectorAll('.record').forEach(r => r.classList.remove('playing'));
+        if (playing) {
+          player.hidden = true;
+          player.innerHTML = '';
+          return;
+        }
+        record.classList.add('playing');
+        player.hidden = false;
+        player.innerHTML = `<iframe src="https://www.youtube.com/embed/${record.dataset.video}?autoplay=1"
+          title="Vaundy MV" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>`;
+      });
+    });
+  </script>
 </body>
 </html>

@@ -48,6 +48,7 @@ nav a { color: var(--main); text-decoration: none; font-weight: 600; }
 }
 @media (prefers-reduced-motion: reduce) {
   .equalizer span { animation: none; transform: scaleY(.6); }
+  .record.playing .vinyl { animation: none; }
 }
 
 main { max-width: 720px; margin: 0 auto; padding: 24px 16px 64px; }
@@ -75,15 +76,67 @@ li { line-height: 1.8; }
 .artist strong { font-size: 1.3rem; }
 .artist p { margin: 2px 0 0; color: #666; font-size: .95rem; line-height: 1.5; }
 h3 { font-size: 1rem; color: #555; margin: 20px 0 8px; }
-.songs { list-style: none; padding: 0; margin: 0; }
-.songs li {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 14px;
-  border-bottom: 1px solid #eee;
-  font-size: 1.05rem;
+h3 small { font-weight: normal; color: #999; font-size: .85rem; }
+
+/* 레코드(LP) 카드 */
+.records {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
 }
-.songs li:last-child { border-bottom: none; }
-.songs span { color: var(--accent); }
+.record {
+  position: relative;
+  border: none;
+  background: none;
+  padding: 0 0 36px;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+}
+.sleeve {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 75%;
+  aspect-ratio: 1;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 6px 16px rgba(0,0,0,.2);
+}
+.sleeve img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.vinyl {
+  position: absolute;
+  top: 4%;
+  left: 28%;
+  width: 67.5%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, var(--accent) 0 14%, #111 15% 17%, transparent 18%),
+    repeating-radial-gradient(circle, #222 0 2px, #2c2c2c 2px 4px);
+  box-shadow: 0 4px 12px rgba(0,0,0,.3);
+  transition: left .4s ease;
+}
+.record:hover .vinyl { left: 34%; }
+.record.playing .vinyl {
+  left: 40%;
+  animation: spin 3s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.record .title {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+.record.playing .title::before { content: "▶ "; color: var(--accent); }
+.player { margin-top: 16px; }
+.player iframe {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 0;
+  border-radius: 10px;
+}
 
